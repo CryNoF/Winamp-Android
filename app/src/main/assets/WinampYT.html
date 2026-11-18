@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>WinampYT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
+<style>
+  /* ---------- Temas ---------- */
+  body{
+    --page:#111118; --f1:#4a4a63; --f2:#2a2a3a; --f3:#191924; --bhi:#6b6b88; --blo:#0c0c12;
+    --ttl:#e8e8f0; --acc:#d8b850; --lcdbg:#000; --lcd:#00e600; --lcddim:#0a5f0a; --lcdsoft:#2f9a2f;
+    --b1:#d9d9e2; --b2:#8d8d9c; --b3:#5b5b6a; --btx:#111; --bon:#1d8f1d; --sel:#0b2fa3; --seltx:#00e600; --cur:#fff;
+    --v1:#1fd11f; --v2:#d8c43a; --v3:#e03c2c; --peak:#c8c8d8; --link:#7fd8ff; --txt:#ddd; --help:#9a9ab0;
+  }
+  body[data-theme=medianoche]{ --page:#070b16; --f1:#25385e; --f2:#16233f; --f3:#0b1427; --bhi:#3f5d94; --blo:#04070f;
+    --ttl:#d6e6ff; --acc:#5aa9ff; --lcdbg:#020814; --lcd:#4fd8ff; --lcddim:#123c52; --lcdsoft:#3a8fb0;
+    --b1:#c9d8f2; --b2:#7f97c2; --b3:#4d6290; --btx:#0a1430; --bon:#1f6fd0; --sel:#1f4fa0; --seltx:#e6f6ff; --cur:#fff;
+    --v1:#32c8ff; --v2:#6e8bff; --v3:#e6f3ff; --peak:#9fd6ff; --link:#ffd27f; --txt:#cfe0ff; --help:#8ea4c8; }
+  body[data-theme=matrix]{ --page:#000; --f1:#123012; --f2:#0a1d0a; --f3:#030a03; --bhi:#1f5a1f; --blo:#000;
+    --ttl:#9dff9d; --acc:#2fd35a; --lcdbg:#000; --lcd:#39ff6a; --lcddim:#0d3a17; --lcdsoft:#1f9a3a;
+    --b1:#3c7a3c; --b2:#245224; --b3:#143314; --btx:#c8ffc8; --bon:#7dff7d; --sel:#0f4f1f; --seltx:#b8ffc8; --cur:#eaffea;
+    --v1:#1fbf3f; --v2:#5aff7a; --v3:#d6ffd6; --peak:#9dff9d; --link:#d6ff5a; --txt:#a8e8a8; --help:#5fa05f; }
+  body[data-theme=ambar]{ --page:#0d0905; --f1:#5a4428; --f2:#382a18; --f3:#1c140a; --bhi:#8a6a40; --blo:#080502;
+    --ttl:#ffe6b8; --acc:#ffcf66; --lcdbg:#120a00; --lcd:#ffb000; --lcddim:#4a3100; --lcdsoft:#b07a10;
+    --b1:#e8d4ae; --b2:#b79a6a; --b3:#7d6440; --btx:#2a1a05; --bon:#b86a00; --sel:#6a4200; --seltx:#ffd480; --cur:#fff3d6;
+    --v1:#ffb000; --v2:#ff7a00; --v3:#ff3a1a; --peak:#ffe0a0; --link:#ffe9a8; --txt:#f0dcb8; --help:#b09870; }
+  body[data-theme=vaporwave]{ --page:#120623; --f1:#5a2e82; --f2:#351a57; --f3:#1b0b31; --bhi:#8a5ac0; --blo:#08020f;
+    --ttl:#ffe3fb; --acc:#01cdfe; --lcdbg:#0d0221; --lcd:#ff71ce; --lcddim:#4a1a42; --lcdsoft:#b967ff;
+    --b1:#f0d6ff; --b2:#b98ae6; --b3:#7a52b0; --btx:#2a0c4a; --bon:#ff2fae; --sel:#6a2fa8; --seltx:#fff; --cur:#05ffa1;
+    --v1:#01cdfe; --v2:#b967ff; --v3:#ff71ce; --peak:#fffb96; --link:#05ffa1; --txt:#f3d9ff; --help:#c39ae6; }
+  body[data-theme=plata]{ --page:#9fa3ad; --f1:#f2f3f6; --f2:#d4d6dd; --f3:#b5b8c2; --bhi:#ffffff; --blo:#6c707c;
+    --ttl:#1d2540; --acc:#3a5fb8; --lcdbg:#c9d6c0; --lcd:#14283f; --lcddim:#93a38a; --lcdsoft:#3d5a48;
+    --b1:#ffffff; --b2:#d2d5de; --b3:#a7abb8; --btx:#1a1f33; --bon:#2554c7; --sel:#3a6fd8; --seltx:#fff; --cur:#000;
+    --v1:#2a5bd0; --v2:#14283f; --v3:#c8302a; --peak:#5a6a80; --link:#1d5fb0; --txt:#1d2540; --help:#33384a; }
+  body[data-theme=fuego]{ --page:#0b0303; --f1:#4a1a16; --f2:#2c0e0b; --f3:#150504; --bhi:#7a2c22; --blo:#050101;
+    --ttl:#ffd9c8; --acc:#ff9a3a; --lcdbg:#000; --lcd:#ff5a2a; --lcddim:#4a1408; --lcdsoft:#c0461f;
+    --b1:#ecc8bc; --b2:#b98476; --b3:#7d4c40; --btx:#2a0805; --bon:#e0340f; --sel:#7a1010; --seltx:#ffd0b8; --cur:#fff1c2;
+    --v1:#ffcf3a; --v2:#ff7a1a; --v3:#ff2a1a; --peak:#fff1c2; --link:#ffcf6a; --txt:#f2cfc2; --help:#b8857a; }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--page);color:var(--txt);font:12px/1.3 Tahoma,Verdana,"Segoe UI",sans-serif;user-select:none}
+  body{padding:8px;display:flex;justify-content:center}
+  body.host{padding:0;display:block;overflow-x:hidden}
+  #app{width:100%;max-width:470px;display:flex;flex-direction:column;gap:3px}
+  body.host #app{width:470px;max-width:none}
+  body.shade #app{max-width:380px} body.host.shade #app{width:380px}
+  body.shade #app > .win{display:none}
+  .win{background:linear-gradient(var(--f1),var(--f2) 40%,var(--f3));border:1px solid var(--bhi);border-right-color:var(--blo);border-bottom-color:var(--blo);padding:3px 6px 6px}
+  .win[hidden]{display:none}
+  .titlebar{display:flex;align-items:center;gap:6px;height:16px;margin-bottom:5px}
+  .host .drag{cursor:default}
+  .stripes{flex:1;height:7px;background:repeating-linear-gradient(to bottom,var(--acc) 0 1px,transparent 1px 3px);opacity:.75}
+  .ttl{font:bold 10px Tahoma,sans-serif;letter-spacing:2px;color:var(--ttl);text-shadow:0 1px 0 rgba(0,0,0,.6);white-space:nowrap;max-width:300px;overflow:hidden;text-overflow:ellipsis}
+  .tbtns{display:flex;gap:2px}
+  .tbtn{width:16px;height:13px;padding:0;border:1px solid #000;background:linear-gradient(var(--b1),var(--b3));font:9px/10px "Segoe UI Emoji",Tahoma,sans-serif;color:var(--btx);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .tbtn:active,.tbtn.on{background:linear-gradient(var(--b3),var(--b1));box-shadow:inset 0 0 0 1px var(--acc)}
+  body.host .webonly, body:not(.host) .hostonly{display:none !important}
+
+  .lcd{background:var(--lcdbg);color:var(--lcd);font-family:VT323,Consolas,monospace;border:1px solid #000;box-shadow:inset 1px 1px 0 rgba(255,255,255,.08),inset -1px -1px 0 rgba(255,255,255,.12)}
+  .display{display:flex;gap:6px}
+  .dleft{width:172px;flex:none;background:var(--lcdbg);border:1px solid #000;padding:3px 5px;display:flex;flex-direction:column;gap:2px}
+  .trow{display:flex;align-items:center;gap:6px;height:30px}
+  #stIcon{width:14px;color:var(--lcd);font:12px/1 monospace}
+  .time{font-family:VT323,Consolas,monospace;font-size:34px;line-height:28px;color:var(--lcd);letter-spacing:2px;cursor:pointer}
+  #viz{width:100%;height:36px;display:block;cursor:pointer}
+  .dright{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+  .marquee{height:20px;padding:0 5px;font-size:19px;line-height:19px;white-space:pre;overflow:hidden}
+  .info{display:flex;gap:6px;align-items:center;font-family:VT323,monospace;font-size:15px;color:var(--lcdsoft)}
+  .info b{background:var(--lcdbg);color:var(--lcd);font-weight:normal;padding:0 3px;border:1px solid #000;min-width:28px;text-align:right}
+  .info .ind{color:var(--lcddim)} .info .ind.on{color:var(--lcd)}
+  #indGhost{display:none;color:var(--acc)} body.ghost #indGhost{display:inline}
+  .vrow{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ttl)}
+  .vrow label{width:26px;font-weight:bold;letter-spacing:1px}
+  .vrow input{flex:1}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;height:10px;background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.25));border:1px solid #000;margin:0;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:10px;background:linear-gradient(var(--b1),var(--b2));border:1px solid #000}
+  #vol{background:linear-gradient(90deg,var(--lcddim),var(--v1) 60%,var(--v2) 85%,var(--v3))}
+  #seek{width:100%;height:11px;margin:6px 0 5px}
+
+  .controls{display:flex;align-items:center;gap:2px}
+  .cbtn{height:20px;min-width:24px;padding:0 6px;border:1px solid #000;border-top-color:rgba(255,255,255,.85);border-left-color:rgba(255,255,255,.85);background:linear-gradient(var(--b1),var(--b2) 70%,var(--b3));color:var(--btx);font:bold 11px/16px Tahoma,sans-serif;cursor:pointer;white-space:nowrap}
+  .cbtn.sm{padding:0 4px;font-size:10px;min-width:20px}
+  .cbtn:active,.cbtn.on{border-top-color:#000;border-left-color:#000;border-bottom-color:rgba(255,255,255,.85);border-right-color:rgba(255,255,255,.85);background:linear-gradient(var(--b3),var(--b2))}
+  .cbtn.on{color:var(--lcd);background:var(--lcdbg);text-shadow:0 0 3px var(--lcd)}
+  .sp{width:6px} .grow{flex:1}
+  #msg{font:15px VT323,monospace;color:var(--acc);height:15px;line-height:15px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* Mini reproductor */
+  .shadebar{display:none;align-items:center;gap:4px;height:22px}
+  body.shade .full{display:none} body.shade .shadebar{display:flex}
+  body.shade #main .titlebar{display:none}
+  body.shade #main{padding:3px 4px}
+  .shadebar .time{font-size:22px;line-height:18px;letter-spacing:1px;padding:0 4px;background:var(--lcdbg);border:1px solid #000;height:20px}
+  .shadebar .marquee{flex:1;min-width:0;height:20px;font-size:17px;line-height:18px}
+  .shadebar .cbtn{height:18px;min-width:20px;padding:0 3px;font-size:10px;line-height:14px}
+
+  /* Ecualizador */
+  .eqtop{display:flex;align-items:center;gap:4px;margin-bottom:4px}
+  .sel{height:20px;background:var(--lcdbg);color:var(--lcd);border:1px solid #000;font:15px VT323,Consolas,monospace;outline:none;min-width:0}
+  #eqPreset{flex:1}
+  #eqCurve{width:150px;height:20px;background:var(--lcdbg);border:1px solid #000}
+  .eqs{display:flex;align-items:flex-end;gap:0;background:rgba(0,0,0,.25);border:1px solid #000;padding:4px 2px 2px}
+  .eqc{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .eqc.pre{flex:1.3;border-right:1px solid rgba(255,255,255,.15);margin-right:4px}
+  .eqc label{font:13px VT323,monospace;color:var(--lcdsoft)}
+  .eqc b{font:13px VT323,monospace;color:var(--lcd);font-weight:normal;height:13px}
+  input.vr{writing-mode:vertical-lr;direction:rtl;width:12px;height:70px;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,.3))}
+  input.vr::-webkit-slider-thumb{width:12px;height:8px}
+  .eqscale{display:flex;flex-direction:column;justify-content:space-between;height:70px;font:12px VT323,monospace;color:var(--lcdsoft);margin:0 2px 30px 0;text-align:right}
+
+  /* Lista */
+  .row{display:flex;gap:3px;margin-bottom:4px;align-items:center}
+  .row[hidden]{display:none}
+  #plSel{flex:1}
+  .lcdinput{flex:1;min-width:0;height:22px;background:var(--lcdbg);color:var(--lcd);border:1px solid #000;font:16px VT323,Consolas,monospace;padding:0 5px;outline:none;user-select:text}
+  .lcdinput::placeholder{color:var(--lcdsoft);opacity:.8}
+  .list{list-style:none;margin:0;padding:2px 0;overflow-y:auto;background:var(--lcdbg);border:1px solid #000;font-family:VT323,Consolas,monospace;font-size:17px;line-height:18px}
+  #plList{height:230px}
+  #resList{height:250px}
+  .list li{display:flex;gap:6px;padding:0 6px;color:var(--lcd);cursor:default;white-space:nowrap}
+  .list li .n{flex:none}
+  .list li .t{flex:1;overflow:hidden;text-overflow:ellipsis}
+  .list li .c{color:var(--lcdsoft)}
+  .list li .d{flex:none}
+  .list li.sel{background:var(--sel);color:var(--seltx)}
+  .list li.cur{color:var(--cur)}
+  .list li.err{opacity:.55;text-decoration:line-through}
+  .list li .add{flex:none;color:var(--acc);padding:0 2px}
+  .list li.added .add{color:var(--lcdsoft)}
+  .list .empty,.list li.note{color:var(--lcdsoft);padding:6px 10px;white-space:normal;line-height:20px;cursor:default}
+  .list::-webkit-scrollbar{width:12px} .list::-webkit-scrollbar-track{background:rgba(0,0,0,.5)}
+  .list::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--b1),var(--b3));border:1px solid #000}
+  #resList li{cursor:pointer} #resList li:hover{background:rgba(255,255,255,.08)}
+  #resList li.hdr{color:var(--acc);font-size:14px;letter-spacing:1px;cursor:default;background:rgba(0,0,0,.35);margin-top:2px}
+  #resList li.pl,#resList li.pl .add{color:var(--link)} #resList li.pl.open{background:rgba(255,255,255,.06)}
+  #resList li.sub{padding-left:22px} #resList li.all{color:var(--acc)}
+  .foot{display:flex;align-items:center;gap:2px;margin-top:4px}
+  .count{font:15px VT323,monospace;color:var(--lcd);background:var(--lcdbg);padding:0 6px;border:1px solid #000;margin-left:auto;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .foot .cbtn{flex:none}
+
+  /* Opciones */
+  .opt{display:flex;align-items:center;gap:6px;margin:4px 0;color:var(--ttl);font-size:11px}
+  .opt > label:first-child{width:92px;flex:none;font-weight:bold;letter-spacing:1px;font-size:10px}
+  .opt input[type=checkbox]{margin:0 4px 0 0;vertical-align:-2px}
+  .opt .chk{display:flex;align-items:center;cursor:pointer}
+  .themes{display:flex;flex-wrap:wrap;gap:3px;flex:1}
+  .sw{height:20px;padding:0 6px;border:1px solid #000;cursor:pointer;font:bold 10px Tahoma,sans-serif;display:flex;align-items:center;gap:4px}
+  .sw i{display:inline-block;width:9px;height:9px;border:1px solid #000}
+  .sw.on{outline:2px solid var(--acc);outline-offset:-1px}
+  .help{font-size:10px;color:var(--help);line-height:1.5;margin-top:4px}
+  .help kbd{font:10px Consolas,monospace;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.25);padding:0 3px;color:var(--ttl)}
+  #oAlphaV{font:14px VT323,monospace;color:var(--lcd);background:var(--lcdbg);padding:0 4px;border:1px solid #000;min-width:36px;text-align:right}
+
+  #warn{display:none;background:#5a1d1d;border:1px solid #a33;color:#fdd;padding:6px 8px;font-size:11px}
+  body.pip{padding:0;display:block}
+  body.pip #main{min-height:100vh}
+  body.pip #btnPip{display:none}
+/* ---------- Android: pantalla táctil ---------- */
+html,body{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;overscroll-behavior:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+body{display:block;min-height:100vh;padding:calc(6px + env(safe-area-inset-top,0px)) 6px calc(8px + env(safe-area-inset-bottom,0px))}
+#app{width:100%;max-width:none}
+.webonly{display:none !important}
+.titlebar{height:26px}
+.tbtn{width:32px;height:24px;font-size:13px}
+.dleft{width:138px}
+.time{font-size:30px;letter-spacing:1px}
+.dright{overflow:hidden}
+.marquee{min-width:0}
+.info{flex-wrap:wrap;gap:2px 5px}
+.controls{flex-wrap:wrap;gap:4px}
+.cbtn{height:38px;min-width:40px;font-size:15px}
+.cbtn.sm{height:34px;padding:0 9px;font-size:12px}
+.sel{height:34px;font-size:17px}
+.lcdinput{height:38px;font-size:19px}
+.row{flex-wrap:wrap;gap:4px}
+#plSel{flex:1 1 100%}
+.foot{flex-wrap:wrap;gap:4px}
+.list{font-size:19px;line-height:20px}
+.list li{min-height:32px;align-items:center}
+input[type=range]{height:20px}
+input[type=range]::-webkit-slider-thumb{width:24px;height:20px}
+#seek{height:22px;margin:8px 0}
+input.vr{width:24px}
+input.vr::-webkit-slider-thumb{width:24px;height:12px}
+.controls .grow{flex:1 0 100%;height:0}
+.controls .sp{display:none}
+.controls .cbtn{flex:1 1 0;padding:0 4px}
+
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="warn"></div>
+
+  <div id="mainSlot">
+  <section class="win" id="main">
+    <div class="titlebar drag" id="mainBar">
+      <span class="stripes"></span><span class="ttl">WINAMP · YT</span><span class="stripes"></span>
+      <span class="tbtns">
+        <button class="tbtn hostonly" id="tGhost" title="Modo fantasma (Ctrl+Alt+F): los clics atraviesan el reproductor. Mantén Ctrl o Alt para usarlo">👻</button>
+        <button class="tbtn hostonly" id="tTop" title="Siempre visible (encima de las demás ventanas)">📌</button>
+        <button class="tbtn" id="tShade" title="Mini reproductor">▁</button>
+        <button class="tbtn webonly" id="btnPip" title="Mini ventana siempre visible">▣</button>
+        <button class="tbtn hostonly" id="tMin" title="Minimizar a la barra de tareas">_</button>
+        <button class="tbtn hostonly" id="tClose" title="Cerrar WinampYT">×</button>
+      </span>
+    </div>
+    <div class="full">
+      <div class="display">
+        <div class="dleft">
+          <div class="trow"><span id="stIcon">■</span><span id="time" class="time" title="Clic: tiempo transcurrido / restante">00:00</span></div>
+          <canvas id="viz" width="320" height="72" title="Clic: barras / osciloscopio"></canvas>
+        </div>
+        <div class="dright">
+          <div class="marquee lcd"><span id="marq"></span></div>
+          <div class="info"><b id="kbps">---</b>kbps <b id="khz">44</b>kHz <span class="ind" id="indStereo">stereo</span><span class="ind" id="indEq">EQ</span><span id="indGhost">FANTASMA</span></div>
+          <div class="vrow"><label>VOL</label><input type="range" id="vol" min="0" max="100" value="80"></div>
+        </div>
+      </div>
+      <input type="range" id="seek" min="0" max="1000" value="0" title="Posición">
+      <div class="controls">
+        <button class="cbtn" id="bPrev" title="Anterior (Z)">⏮</button>
+        <button class="cbtn" id="bPlay" title="Reproducir (X)">▶</button>
+        <button class="cbtn" id="bPause" title="Pausa (C)">⏸</button>
+        <button class="cbtn" id="bStop" title="Detener (V)">⏹</button>
+        <button class="cbtn" id="bNext" title="Siguiente (B)">⏭</button>
+        <button class="cbtn" id="bEject" title="Buscar / añadir (L)">⏏</button>
+        <span class="grow"></span>
+        <button class="cbtn sm" id="bShuf" title="Aleatorio (S)">SHUF</button>
+        <button class="cbtn sm" id="bRep" title="Repetir lista (R)">REP</button>
+        <span class="sp"></span>
+        <button class="cbtn sm" id="bEq" title="Ecualizador">EQ</button>
+        <button class="cbtn sm" id="bPl" title="Lista de reproducción">PL</button>
+        <button class="cbtn sm" id="bOpt" title="Opciones y temas">OPC</button>
+      </div>
+      <div id="msg"></div>
+    </div>
+    <div class="shadebar drag" id="shadeBar">
+      <span id="time2" class="time" title="Clic: transcurrido / restante">00:00</span>
+      <div class="marquee lcd"><span id="marq2"></span></div>
+      <button class="cbtn" id="sPrev" title="Anterior">⏮</button>
+      <button class="cbtn" id="sPlay" title="Play / pausa">⏯</button>
+      <button class="cbtn" id="sNext" title="Siguiente">⏭</button>
+      <button class="tbtn hostonly" id="sGhost" title="Modo fantasma (Ctrl + clic para salir)">👻</button>
+      <button class="tbtn" id="sRestore" title="Volver al reproductor completo">▢</button>
+    </div>
+  </section>
+  </div>
+
+  <section class="win" id="eqWin" hidden>
+    <div class="titlebar"><span class="stripes"></span><span class="ttl">ECUALIZADOR</span><span class="stripes"></span></div>
+    <div class="eqtop">
+      <button class="cbtn sm" id="eqOn" title="Activar / desactivar el ecualizador">ON</button>
+      <select id="eqPreset" class="sel" title="Ajustes predefinidos"></select>
+      <button class="cbtn sm" id="eqReset" title="Dejar todo en 0">PLANO</button>
+      <canvas id="eqCurve" width="300" height="40"></canvas>
+    </div>
+    <div class="eqs" id="eqs"></div>
+  </section>
+
+  <section class="win" id="plWin">
+    <div class="titlebar"><span class="stripes"></span><span class="ttl" id="plTitle">LISTA</span><span class="stripes"></span></div>
+    <div class="row">
+      <select id="plSel" class="sel" title="Tus listas guardadas: elige una para cargarla"></select>
+      <button class="cbtn sm" id="pNew" title="Empezar una lista nueva vacía">NUEVA</button>
+      <button class="cbtn sm" id="pSave" title="Guardar la lista actual">GUARDAR</button>
+      <button class="cbtn sm" id="pSaveAs" title="Guardar con otro nombre">GUARDAR COMO</button>
+      <button class="cbtn sm" id="pDel" title="Borrar la lista guardada elegida">BORRAR</button>
+    </div>
+    <div class="row" id="nameRow" hidden>
+      <input id="nameInput" class="lcdinput" placeholder="Nombre de la lista…" maxlength="60" spellcheck="false" autocomplete="off">
+      <button class="cbtn sm" id="nameOk">OK</button>
+      <button class="cbtn sm" id="nameCancel">CANCELAR</button>
+    </div>
+    <div class="row">
+      <input id="addInput" class="lcdinput" placeholder="Escribe canción o artista y pulsa Enter (o pega un enlace)…" spellcheck="false" autocomplete="off">
+      <button class="cbtn" id="bAdd">BUSCAR</button>
+    </div>
+    <ul id="plList" class="list" tabindex="0"></ul>
+    <div class="foot">
+      <button class="cbtn sm" id="bUp" title="Subir">▲</button>
+      <button class="cbtn sm" id="bDown" title="Bajar">▼</button>
+      <button class="cbtn sm" id="bRem" title="Quitar seleccionada (Supr)">QUITAR</button>
+      <button class="cbtn sm" id="bClear" title="Vaciar la lista">LIMPIAR</button>
+      <button class="cbtn sm" id="bMp3" title="Guardar la canción seleccionada (o la que suena) en Música/WinampYT">MP3</button>
+      <button class="cbtn sm" id="bMp3All" title="Guardar como MP3 todas las canciones de la lista">MP3 TODO</button>
+      <button class="cbtn sm" id="bMp3Dir" title="Abrir la carpeta de los MP3 (Música/WinampYT (formato M4A))">📁</button>
+      <span class="count" id="plInfo">0 pistas</span>
+    </div>
+  </section>
+
+  <section class="win" id="resWin" hidden>
+    <div class="titlebar"><span class="stripes"></span><span class="ttl" id="resTitle">RESULTADOS</span><span class="stripes"></span></div>
+    <ul id="resList" class="list"></ul>
+    <div class="foot">
+      <button class="cbtn sm" id="bResAll" title="Añade todas las canciones sueltas de la búsqueda">AÑADIR CANCIONES</button>
+      <button class="cbtn sm" id="bResClose">CERRAR</button>
+      <span class="count" title="Clic: añadir a la lista · Doble clic: escuchar ahora">clic: añadir · doble: oír</span>
+    </div>
+  </section>
+
+  <section class="win" id="optWin" hidden>
+    <div class="titlebar"><span class="stripes"></span><span class="ttl">OPCIONES</span><span class="stripes"></span></div>
+    <div class="opt"><label>TEMA</label><div class="themes" id="themes"></div></div>
+    <div class="opt hostonly"><label>MODO FANTASMA</label>
+      <button class="cbtn sm" id="oGhost">ACTIVAR</button>
+      <span>Transparencia</span><input type="range" id="oAlpha" min="20" max="100" step="5" style="flex:1"><b id="oAlphaV">75%</b>
+    </div>
+    <div class="opt hostonly"><label>VENTANA</label><span class="chk"><input type="checkbox" id="oTop">Siempre visible, encima de las demás ventanas</span></div>
+    <div class="opt hostonly"><label>BARRA TAREAS</label><span class="chk"><input type="checkbox" id="oProg">Mostrar el avance de la canción en el icono</span></div>
+    <div class="opt hostonly"><label>MINI</label><span class="chk"><input type="checkbox" id="oDock">Acoplar el mini reproductor junto a la barra de tareas</span></div>
+    <div class="help">
+      <span class="hostonly"><b>Modo fantasma:</b> el reproductor queda encima de todo, semitransparente, y los clics lo atraviesan para no molestarte mientras trabajas. Mantén <kbd>Ctrl</kbd> o <kbd>Alt</kbd> para tocarlo; para salir pulsa <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>, mantén <kbd>Ctrl</kbd> y pulsa 👻, o usa el icono de WinampYT junto al reloj de Windows.<br>
+      En la barra de tareas, al pasar el mouse sobre el icono de WinampYT aparecen los botones ⏮ ▶ ⏭.<br></span>
+      Atajos: <kbd>Z</kbd> anterior · <kbd>X</kbd> play · <kbd>C</kbd> pausa · <kbd>V</kbd> stop · <kbd>B</kbd> siguiente · <kbd>←</kbd><kbd>→</kbd> adelantar · <kbd>↑</kbd><kbd>↓</kbd> volumen · <kbd>S</kbd> aleatorio · <kbd>R</kbd> repetir · <kbd>L</kbd> buscar. Las teclas multimedia del teclado también funcionan.<span class="hostonly"> <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd> activa o quita el modo fantasma desde cualquier programa.</span><br><b>MP3:</b> el botón MP3 guarda la canción elegida y MP3 TODO la lista completa, con su nombre, en Música/WinampYT (formato M4A). Se guarda el audio original de YouTube, sin conversión.
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const HOST = !!(window.chrome && window.chrome.webview);
+  document.body.classList.add(HOST ? 'host' : 'web');
+  const send = m => { if (HOST) { try { window.chrome.webview.postMessage(m); } catch (e) {} } };
+
+  const ids = ['app','main','mainSlot','mainBar','shadeBar','btnPip','tGhost','tTop','tShade','tMin','tClose','stIcon','time','time2','viz','marq','marq2',
+    'kbps','khz','indStereo','indEq','vol','seek','bPrev','bPlay','bPause','bStop','bNext','bEject','bShuf','bRep','bEq','bPl','bOpt','msg',
+    'sPrev','sPlay','sNext','sGhost','sRestore','eqWin','eqOn','eqPreset','eqReset','eqCurve','eqs',
+    'plWin','plTitle','plSel','pNew','pSave','pSaveAs','pDel','nameRow','nameInput','nameOk','nameCancel','addInput','bAdd','plList','bUp','bDown','bRem','bClear','plInfo',
+    'bMp3','bMp3All','bMp3Dir','resWin','resTitle','resList','bResAll','bResClose','optWin','themes','oGhost','oAlpha','oAlphaV','oTop','oProg','oDock','warn'];
+  const el = {}; ids.forEach(i => el[i] = document.getElementById(i));
+
+  // ---------- Datos ----------
+  const EQF = [60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000];
+  const EQL = ['60', '170', '310', '600', '1K', '3K', '6K', '12K', '14K', '16K'];
+  const PRESETS = {
+    'Plano': [0,0,0,0,0,0,0,0,0,0],
+    'Rock': [5,3,-3,-5,-2,2,5,6,6,6],
+    'Pop': [-1,2,4,5,3,0,-1,-1,-1,-1],
+    'Jazz': [3,2,1,2,-1,-1,0,1,2,3],
+    'Clásica': [0,0,0,0,0,0,-4,-4,-4,-6],
+    'Dance': [6,5,2,0,0,-3,-4,-4,0,0],
+    'Electrónica': [5,4,1,0,-2,2,1,2,4,5],
+    'Latino / Reggaetón': [6,5,2,0,-1,0,1,2,3,3],
+    'Más graves': [7,6,4,2,0,0,0,0,0,0],
+    'Más agudos': [0,0,0,0,0,2,4,6,7,7],
+    'Voz': [-3,-2,0,2,4,4,3,1,0,-1],
+    'Fiesta': [5,5,0,0,0,0,0,0,5,5],
+    'Suave': [3,1,-1,-2,-1,2,4,5,6,6],
+    'Audífonos': [3,6,3,-2,-1,1,3,6,8,9]
+  };
+  const THEMES = [['clasico','Clásico'],['medianoche','Medianoche'],['matrix','Matrix'],['ambar','Ámbar'],['vaporwave','Vaporwave'],['plata','Plata'],['fuego','Fuego']];
+
+  const S = { items: [], cur: -1, sel: -1, vol: 80, shuffle: false, repeat: true, remaining: false, vizMode: 0,
+    theme: 'clasico', eq: { on: true, pre: 0, bands: [0,0,0,0,0,0,0,0,0,0], preset: 'Plano' },
+    showEq: false, showPl: true, showOpt: false, shade: false, top: false, ghostAlpha: 75, taskProg: true, dockMini: true,
+    plName: '', dirty: false };
+  let ghostOn = false;
+  try { Object.assign(S, JSON.parse(localStorage.getItem('winampyt') || '{}')); } catch (e) {}
+
+  function normalize() {
+    S.items = (Array.isArray(S.items) ? S.items : []).filter(x => x && /^[\w-]{11}$/.test(x.id)).map(x => ({ id: x.id, title: x.title || '', ch: x.ch || '', dur: x.dur || 0 }));
+    if (!(S.cur < S.items.length)) S.cur = -1;
+    if (!(S.sel < S.items.length)) S.sel = -1;
+    if (!S.eq || !Array.isArray(S.eq.bands) || S.eq.bands.length !== 10) S.eq = { on: true, pre: 0, bands: [0,0,0,0,0,0,0,0,0,0], preset: 'Plano' };
+    if (!THEMES.some(t => t[0] === S.theme)) S.theme = 'clasico';
+    S.vol = Math.max(0, Math.min(100, +S.vol || 0));
+    S.ghostAlpha = Math.max(20, Math.min(100, +S.ghostAlpha || 75));
+  }
+  const asciiJSON = o => JSON.stringify(o).replace(/[\u007f-￿]/g, c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0'));
+  let saveT;
+  function save() {
+    clearTimeout(saveT);
+    saveT = setTimeout(() => {
+      const data = Object.assign({}, S);
+      try { localStorage.setItem('winampyt', JSON.stringify(data)); } catch (e) {}
+      if (location.protocol !== 'file:') fetch('/api/state', { method: 'POST', body: asciiJSON(data), headers: { 'Content-Type': 'text/plain' } }).catch(() => {});
+    }, 600);
+  }
+
+  // ---------- Utilidades ----------
+  const fmt = s => { s = Math.max(0, Math.floor(s || 0)); const m = Math.floor(s / 60), h = Math.floor(m / 60);
+    return h ? `${h}:${String(m % 60).padStart(2,'0')}:${String(s % 60).padStart(2,'0')}` : `${String(m).padStart(2,'0')}:${String(s % 60).padStart(2,'0')}`; };
+  let msgT;
+  const msg = (t, ms = 4000) => { el.msg.textContent = t; el.msg.title = t; clearTimeout(msgT); if (ms) msgT = setTimeout(() => { el.msg.textContent = ''; }, ms); };
+  const curItem = () => S.items[S.cur];
+  const nameOf = it => !it ? '' : it.title ? (it.ch && !it.title.toLowerCase().includes(it.ch.toLowerCase()) ? `${it.ch} - ${it.title}` : it.title) : `YouTube ${it.id}`;
+  const escapeHtml = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const itemsOf = r => !r || !r.items ? [] : Array.isArray(r.items) ? r.items : Array.isArray(r.items.value) ? r.items.value : [r.items];
+  const armed = {};
+  function confirmArm(key, btn, text) {
+    const now = Date.now();
+    if (armed[key] && now - armed[key] < 4000) { armed[key] = 0; if (btn.dataset.old) { btn.textContent = btn.dataset.old; delete btn.dataset.old; } return true; }
+    armed[key] = now;
+    if (!btn.dataset.old) btn.dataset.old = btn.textContent;
+    btn.textContent = text;
+    setTimeout(() => { if (armed[key] === now) { armed[key] = 0; if (btn.dataset.old) { btn.textContent = btn.dataset.old; delete btn.dataset.old; } } }, 4000);
+    return false;
+  }
+
+  async function api(path, opts) {
+    let r;
+    try { r = await fetch(path, opts); }
+    catch (e) { serverDown(); throw new Error('El motor del reproductor no responde'); }
+    try { return await r.json(); } catch (e) { return { ok: false, error: 'respuesta no válida del servidor' }; }
+  }
+  function serverDown() {
+    el.warn.innerHTML = 'No encuentro el motor del reproductor. Cierra la app y vuelve a abrirla.';
+    el.warn.style.display = 'block';
+  }
+
+  // ---------- Audio, ecualizador y análisis ----------
+  const audio = new Audio(); audio.preload = 'auto';
+  window.__wy = { audio, title: () => nameOf(curItem()) }; // lo usa la app Android (notificación y botones)
+  let actx = null, analyser = null, fbuf = null, wbuf = null, preGain = null, filters = [];
+  function ensureCtx() {
+    if (actx) { if (actx.state === 'suspended') actx.resume().catch(() => {}); return; }
+    try {
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      const src = actx.createMediaElementSource(audio);
+      preGain = actx.createGain();
+      filters = EQF.map((f, i) => { const b = actx.createBiquadFilter(); b.type = i === 0 ? 'lowshelf' : i === EQF.length - 1 ? 'highshelf' : 'peaking'; b.frequency.value = f; b.Q.value = 1.2; return b; });
+      analyser = actx.createAnalyser(); analyser.fftSize = 2048; analyser.smoothingTimeConstant = 0.72;
+      let node = src; node.connect(preGain); node = preGain;
+      filters.forEach(f => { node.connect(f); node = f; });
+      node.connect(analyser); analyser.connect(actx.destination);
+      fbuf = new Uint8Array(analyser.frequencyBinCount); wbuf = new Uint8Array(analyser.fftSize);
+      el.khz.textContent = Math.round(actx.sampleRate / 1000);
+      applyEq();
+    } catch (e) { actx = null; }
+  }
+  document.addEventListener('pointerdown', ensureCtx, true);
+  document.addEventListener('keydown', ensureCtx, true);
+
+  function applyEq() {
+    el.eqOn.classList.toggle('on', S.eq.on); el.eqOn.textContent = S.eq.on ? 'ON' : 'OFF';
+    el.indEq.classList.toggle('on', S.eq.on && (S.eq.pre !== 0 || S.eq.bands.some(v => v !== 0)));
+    drawEqCurve();
+    if (!actx) return;
+    const t = actx.currentTime;
+    preGain.gain.setTargetAtTime(S.eq.on ? Math.pow(10, S.eq.pre / 20) : 1, t, 0.02);
+    filters.forEach((f, i) => f.gain.setTargetAtTime(S.eq.on ? S.eq.bands[i] : 0, t, 0.02));
+  }
+  function buildEq() {
+    const col = (cls, label, val, key) => `<div class="eqc ${cls}"><b data-v="${key}">${fmtDb(val)}</b><input type="range" class="vr" min="-12" max="12" step="0.5" value="${val}" data-k="${key}" title="${label}"><label>${label}</label></div>`;
+    let h = col('pre', 'PRE', S.eq.pre, 'pre');
+    h += '<div class="eqscale"><span>+12</span><span>0</span><span>-12</span></div>';
+    EQL.forEach((l, i) => { h += col('', l, S.eq.bands[i], i); });
+    el.eqs.innerHTML = h;
+    el.eqPreset.innerHTML = Object.keys(PRESETS).map(n => `<option>${escapeHtml(n)}</option>`).join('') + '<option value="">Personalizado</option>';
+    syncEqUI();
+  }
+  const fmtDb = v => (v > 0 ? '+' : '') + (Math.round(v * 10) / 10);
+  function syncEqUI() {
+    el.eqs.querySelectorAll('input.vr').forEach(inp => {
+      const k = inp.dataset.k; const v = k === 'pre' ? S.eq.pre : S.eq.bands[+k];
+      inp.value = v; const b = el.eqs.querySelector(`b[data-v="${k}"]`); if (b) b.textContent = fmtDb(v);
+    });
+    el.eqPreset.value = PRESETS[S.eq.preset] ? S.eq.preset : '';
+    applyEq();
+  }
+  el.eqs.addEventListener('input', e => {
+    const inp = e.target.closest('input.vr'); if (!inp) return;
+    const k = inp.dataset.k, v = +inp.value;
+    if (k === 'pre') S.eq.pre = v; else { S.eq.bands[+k] = v; S.eq.preset = ''; el.eqPreset.value = ''; }
+    const b = el.eqs.querySelector(`b[data-v="${k}"]`); if (b) b.textContent = fmtDb(v);
+    applyEq(); save();
+  });
+  el.eqs.addEventListener('dblclick', e => { const inp = e.target.closest('input.vr'); if (!inp) return; inp.value = 0; inp.dispatchEvent(new Event('input', { bubbles: true })); });
+  el.eqPreset.addEventListener('change', () => {
+    const p = PRESETS[el.eqPreset.value]; if (!p) return;
+    S.eq.bands = p.slice(); S.eq.preset = el.eqPreset.value; S.eq.on = true;
+    const mx = Math.max(...p); S.eq.pre = mx > 4 ? -Math.round(mx / 2) : 0; // evita saturar
+    syncEqUI(); save(); msg('Ecualizador: ' + S.eq.preset, 2000);
+  });
+  el.eqOn.onclick = () => { S.eq.on = !S.eq.on; applyEq(); save(); };
+  el.eqReset.onclick = () => { S.eq.bands = [0,0,0,0,0,0,0,0,0,0]; S.eq.pre = 0; S.eq.preset = 'Plano'; syncEqUI(); save(); };
+  function drawEqCurve() {
+    const c = el.eqCurve, g = c.getContext('2d'), W = c.width, H = c.height;
+    g.clearRect(0, 0, W, H);
+    g.strokeStyle = cssVar('--lcddim'); g.lineWidth = 1; g.beginPath(); g.moveTo(0, H / 2); g.lineTo(W, H / 2); g.stroke();
+    const pts = S.eq.bands.map((v, i) => [6 + i * (W - 12) / 9, H / 2 - (S.eq.on ? v : 0) / 12 * (H / 2 - 3)]);
+    g.strokeStyle = cssVar('--lcd'); g.lineWidth = 2; g.beginPath(); g.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length; i++) { const mx = (pts[i - 1][0] + pts[i][0]) / 2; g.bezierCurveTo(mx, pts[i - 1][1], mx, pts[i][1], pts[i][0], pts[i][1]); }
+    g.stroke();
+  }
+
+  // ---------- Estado de reproducción ----------
+  let state = 'stop';   // stop | load | play | pause
+  let playToken = 0, loadedId = null, errStreak = 0, pipWin = null;
+  function setState(s) {
+    state = s;
+    el.stIcon.textContent = { play: '▶', pause: '❚❚', load: '…', stop: '■' }[s];
+    el.indStereo.classList.toggle('on', s === 'play');
+    setMarquee();
+    send('state|' + s);
+    if ('mediaSession' in navigator) { try { navigator.mediaSession.playbackState = s === 'play' ? 'playing' : s === 'pause' ? 'paused' : 'none'; } catch (e) {} }
+  }
+
+  audio.addEventListener('playing', () => {
+    errStreak = 0; setState('play');
+    const it = curItem(); if (!it) return;
+    if (it.err) { it.err = false; scheduleRender(); }
+    prefetchNext();
+  });
+  audio.addEventListener('pause', () => { if (state === 'play') setState('pause'); });
+  audio.addEventListener('waiting', () => { if (state === 'play') el.stIcon.textContent = '…'; });
+  audio.addEventListener('loadedmetadata', () => {
+    const it = curItem();
+    if (it && isFinite(audio.duration) && (!it.dur || Math.abs(it.dur - audio.duration) > 2)) { it.dur = Math.round(audio.duration); save(); scheduleRender(); setMarquee(); }
+    if (it && it.size && isFinite(audio.duration) && audio.duration > 0) el.kbps.textContent = Math.round(it.size * 8 / audio.duration / 1000);
+  });
+  audio.addEventListener('ended', () => next(true));
+  audio.addEventListener('error', () => { if (state === 'load' || state === 'play') failCurrent('el archivo de audio no se pudo leer'); });
+
+  function failCurrent(why) {
+    const it = curItem(); if (it) { it.err = true; scheduleRender(); }
+    msg(`No se pudo reproducir "${nameOf(it)}": ${why}`, 9000);
+    errStreak++;
+    if (errStreak < Math.min(5, S.items.length)) setTimeout(() => next(true), 1000);
+    else { errStreak = 0; stop(); }
+  }
+
+  async function playIndex(i) {
+    const it = S.items[i]; if (!it) return;
+    ensureCtx();
+    S.cur = i; save();
+    const token = ++playToken;
+    audio.pause(); setState('load'); scheduleRender(true); updateMediaSession();
+    el.time.textContent = el.time2.textContent = '00:00'; el.seek.value = 0; el.kbps.textContent = '---';
+    msg('Preparando audio… (la primera vez tarda unos segundos)', 0);
+    let r;
+    try { r = await api('/api/prep?id=' + it.id); }
+    catch (e) { if (token === playToken) { setState('stop'); msg(e.message, 8000); } return; }
+    if (token !== playToken) return;
+    if (!r.ok) { failCurrent(r.error || 'error desconocido'); return; }
+    msg('', 1);
+    it.size = r.size; loadedId = it.id;
+    audio.src = r.url;
+    audio.volume = volCurve(S.vol);
+    try { await audio.play(); }
+    catch (e) {
+      if (token !== playToken) return;
+      if (e && e.name === 'NotAllowedError') { setState('pause'); msg('Pulsa ▶ para empezar a sonar.', 6000); }
+      else if (e && e.name !== 'AbortError') failCurrent('no se pudo reproducir el audio');
+    }
+  }
+  function prefetchNext() {
+    if (S.shuffle || S.items.length < 2) return;
+    const n = S.items[(S.cur + 1) % S.items.length];
+    if (n && n.id !== loadedId) api('/api/prep?id=' + n.id).catch(() => {});
+  }
+  function play() {
+    ensureCtx();
+    if (!S.items.length) { showPl(true); el.addInput.focus(); msg('La lista está vacía: busca una canción o pega un enlace.'); return; }
+    if (state === 'pause' && curItem() && loadedId === curItem().id) { audio.play().catch(() => {}); return; }
+    if (state === 'play' || state === 'load') { if (state === 'play') audio.currentTime = 0; return; }
+    if (S.cur < 0) return playIndex(S.sel >= 0 ? S.sel : 0);
+    if (loadedId === curItem().id && audio.src) { audio.currentTime = 0; audio.play().catch(() => {}); }
+    else playIndex(S.cur);
+  }
+  function pause() { ensureCtx(); if (state === 'play') audio.pause(); else if (state === 'pause') play(); }
+  function toggle() { if (state === 'play') audio.pause(); else play(); }
+  function stop() { playToken++; audio.pause(); try { audio.currentTime = 0; } catch (e) {} setState('stop'); el.seek.value = 0; }
+  function next(auto) {
+    const n = S.items.length; if (!n) return;
+    let i;
+    if (S.shuffle && n > 1) { do { i = Math.floor(Math.random() * n); } while (i === S.cur); }
+    else { i = S.cur + 1; if (i >= n) { if (S.repeat || !auto) i = 0; else { stop(); return; } } }
+    playIndex(i);
+  }
+  function prev() {
+    const n = S.items.length; if (!n) return;
+    if (state === 'play' && audio.currentTime > 3) { audio.currentTime = 0; return; }
+    playIndex(S.cur <= 0 ? n - 1 : S.cur - 1);
+  }
+  const volCurve = v => Math.pow(v / 100, 1.6);
+  function setVol(v) { S.vol = Math.max(0, Math.min(100, Math.round(v))); el.vol.value = S.vol; audio.volume = volCurve(S.vol); save(); }
+  function seekBy(s) { if (loadedId && isFinite(audio.duration)) audio.currentTime = Math.max(0, Math.min(audio.duration - 0.5, audio.currentTime + s)); }
+
+  function updateMediaSession() {
+    if (!('mediaSession' in navigator)) return;
+    const it = curItem(); if (!it) return;
+    try { navigator.mediaSession.metadata = new MediaMetadata({ title: it.title || it.id, artist: it.ch || '', album: 'WinampYT',
+      artwork: [{ src: `https://i.ytimg.com/vi/${it.id}/hqdefault.jpg`, sizes: '480x360', type: 'image/jpeg' }] }); } catch (e) {}
+  }
+  if ('mediaSession' in navigator) {
+    const h = { play: () => play(), pause: () => pause(), stop: () => stop(), previoustrack: () => prev(), nexttrack: () => next(false),
+      seekbackward: () => seekBy(-10), seekforward: () => seekBy(10) };
+    for (const k in h) { try { navigator.mediaSession.setActionHandler(k, h[k]); } catch (e) {} }
+  }
+
+  // ---------- Marquesina ----------
+  let marqText = '', marqPos = 0, marqLast = 0;
+  function setMarquee() {
+    const it = curItem();
+    marqText = it ? `${S.cur + 1}. ${nameOf(it)} (${it.dur ? fmt(it.dur) : '--:--'})${state === 'load' ? '  [cargando…]' : ''}  ***  `
+                  : 'WINAMP·YT  ***  Busca una canción en la lista para empezar  ***  ';
+    marqPos = 0;
+    const t = it ? `${{ play: '▶', pause: '⏸', load: '…', stop: '■' }[state]} ${nameOf(it)}` : 'WinampYT';
+    document.title = it ? t + ' - WinampYT' : 'WinampYT';
+    send('title|' + t);
+  }
+  function marqFor(span) {
+    const w = span.parentElement.clientWidth; if (!w) return;
+    const chars = Math.max(8, Math.floor(w / 8.2));
+    if (marqText.length - 7 <= chars) { span.textContent = marqText.replace(/\s+\*\*\*\s+$/, ''); return; }
+    span.textContent = (marqText + marqText).substr(marqPos % marqText.length, chars + 2);
+  }
+  function marqTick(t) {
+    if (t - marqLast < 220) return; marqLast = t;
+    marqFor(S.shade ? el.marq2 : el.marq);
+    marqPos = (marqPos + 1) % Math.max(1, marqText.length);
+  }
+
+  // ---------- Visualizador ----------
+  const ctx = el.viz.getContext('2d');
+  const NB = 19; const bars = new Array(NB).fill(0), peaks = new Array(NB).fill(0);
+  let vizLast = 0, bands = null, VC = {};
+  const cssVar = n => getComputedStyle(document.body).getPropertyValue(n).trim();
+  function readThemeColors() { VC = { v1: cssVar('--v1'), v2: cssVar('--v2'), v3: cssVar('--v3'), peak: cssVar('--peak') }; }
+  function bandRanges() {
+    const bins = analyser.frequencyBinCount, hz = actx.sampleRate / 2 / bins, out = [];
+    for (let i = 0; i < NB; i++) {
+      const f0 = 40 * Math.pow(16000 / 40, i / NB), f1 = 40 * Math.pow(16000 / 40, (i + 1) / NB);
+      out.push([Math.max(1, Math.floor(f0 / hz)), Math.max(2, Math.ceil(f1 / hz))]);
+    }
+    return out;
+  }
+  function vizTick(t) {
+    if (S.shade || t - vizLast < 30) return; const dt = Math.min(0.1, (t - vizLast) / 1000); vizLast = t;
+    const W = el.viz.width, H = el.viz.height; ctx.clearRect(0, 0, W, H);
+    const live = analyser && state === 'play';
+    if (S.vizMode === 0) {
+      if (live) { analyser.getByteFrequencyData(fbuf); if (!bands) bands = bandRanges(); }
+      const bw = W / NB;
+      for (let i = 0; i < NB; i++) {
+        let v = 0;
+        if (live) { const [a, b] = bands[i]; let m = 0; for (let k = a; k < b && k < fbuf.length; k++) m = Math.max(m, fbuf[k]); v = Math.pow(m / 255, 1.4); }
+        bars[i] += (v - bars[i]) * (v > bars[i] ? 0.7 : 0.2);
+        if (bars[i] > peaks[i]) peaks[i] = bars[i]; else peaks[i] = Math.max(0, peaks[i] - dt * 0.5);
+        const h = Math.round(bars[i] * (H - 4)), x = Math.round(i * bw) + 1, w = Math.max(2, Math.round(bw) - 3);
+        for (let y = 0; y < h; y += 4) { const f = y / H; ctx.fillStyle = f > 0.8 ? VC.v3 : f > 0.55 ? VC.v2 : VC.v1; ctx.fillRect(x, H - y - 3, w, 3); }
+        if (peaks[i] > 0.02) { ctx.fillStyle = VC.peak; ctx.fillRect(x, H - Math.round(peaks[i] * (H - 4)) - 4, w, 2); }
+      }
+    } else {
+      ctx.strokeStyle = VC.v1; ctx.lineWidth = 2; ctx.beginPath();
+      if (live) analyser.getByteTimeDomainData(wbuf);
+      const N = 160;
+      for (let i = 0; i <= N; i++) {
+        const x = i / N * W, s = live ? (wbuf[Math.floor(i / N * (wbuf.length - 1))] - 128) / 128 : 0;
+        const y = H / 2 + s * H * 0.45; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.stroke();
+    }
+  }
+  el.viz.addEventListener('click', () => { S.vizMode = S.vizMode ? 0 : 1; save(); });
+
+  // ---------- Tiempo, barra y barra de tareas ----------
+  let seeking = false, timeLast = 0, progLast = 0, progOff = false;
+  function timeTick(t) {
+    if (t - timeLast < 250) return; timeLast = t;
+    const has = loadedId && curItem() && loadedId === curItem().id && (state === 'play' || state === 'pause');
+    const cur = has ? audio.currentTime : 0, dur = has && isFinite(audio.duration) ? audio.duration : 0;
+    const txt = S.remaining && dur ? '-' + fmt(dur - cur) : fmt(cur);
+    el.time.textContent = txt; el.time2.textContent = txt;
+    const vis = (state === 'pause' && Math.floor(t / 500) % 2) ? 'hidden' : 'visible';
+    el.time.style.visibility = vis; el.time2.style.visibility = vis;
+    if (!seeking) el.seek.value = dur ? Math.round(cur / dur * 1000) : 0;
+    if (HOST && t - progLast > 1000) {
+      progLast = t;
+      if (S.taskProg) { send(`prog|${cur.toFixed(1)}|${dur.toFixed(1)}|${has ? state : 'stop'}`); progOff = false; }
+      else if (!progOff) { send('prog|0|0|stop'); progOff = true; }
+    }
+  }
+  [el.time, el.time2].forEach(x => x.addEventListener('click', () => { S.remaining = !S.remaining; save(); timeLast = 0; }));
+  el.seek.addEventListener('input', () => { seeking = true; });
+  el.seek.addEventListener('change', () => { seeking = false; if (loadedId && isFinite(audio.duration)) audio.currentTime = el.seek.value / 1000 * audio.duration; });
+
+  let loopGen = 0;
+  function startLoop() {
+    const gen = ++loopGen, w = pipWin || window;
+    const step = t => { if (gen !== loopGen) return; try { marqTick(t); vizTick(t); timeTick(t); } catch (e) {} w.requestAnimationFrame(step); };
+    w.requestAnimationFrame(step);
+  }
+  // Si la ventana está minimizada, la animación se detiene: mantener viva la barra de tareas
+  setInterval(() => { if (document.hidden) { try { timeTick(performance.now()); } catch (e) {} } }, 1000);
+
+  // ---------- Buscar / añadir ----------
+  function parseToken(s) {
+    s = s.trim(); if (!s) return null;
+    let u; try { u = new URL(/^https?:\/\//i.test(s) ? s : 'https://' + s); } catch (e) { return null; }
+    const host = u.hostname.replace(/^(www|m|music)\./, '');
+    let v = null; const list = u.searchParams.get('list');
+    if (host === 'youtu.be') v = u.pathname.slice(1, 12);
+    else if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+      v = u.searchParams.get('v');
+      if (!v) { const m = u.pathname.match(/\/(shorts|embed|live|v)\/([\w-]{11})/); if (m) v = m[2]; }
+    } else return null;
+    if (v && !/^[\w-]{11}$/.test(v)) v = null;
+    if (list) return { url: 'https://www.youtube.com/playlist?list=' + encodeURIComponent(list), v };
+    if (v) return { url: 'https://www.youtube.com/watch?v=' + v, v };
+    return null;
+  }
+
+  let results = [];
+  async function submitInput() {
+    const raw = el.addInput.value.trim();
+    if (!raw) { el.addInput.focus(); return; }
+    const toks = raw.split(/\s+/).map(parseToken);
+    if (toks.some(Boolean) && toks.every(Boolean)) {
+      el.addInput.value = '';
+      const before = S.items.length, autoplay = state === 'stop' && (S.cur < 0 || !S.items.length);
+      let added = 0;
+      for (const t of toks) {
+        msg('Leyendo enlace de YouTube…', 0);
+        let r; try { r = await api('/api/list?url=' + encodeURIComponent(t.url)); } catch (e) { msg(e.message, 8000); return; }
+        const got = r.ok ? itemsOf(r) : [];
+        if (got.length) { got.forEach(addItem); added += got.length; }
+        else if (t.v) { addItem({ id: t.v }); added++; }
+        else msg('No pude leer ese enlace: ' + (r.error || ''), 8000);
+      }
+      el.addInput.blur();
+      if (added) { msg(`Añadidas ${added} ${added > 1 ? 'canciones' : 'canción'}.`, 3000); save(); scheduleRender(); if (autoplay) playIndex(before); }
+      return;
+    }
+    doSearch(raw);
+  }
+  let searchGen = 0, lists = [], listsLoading = false, songsLoading = false, searchErr = '', inListSet = new Set();
+  function doSearch(raw) {
+    const gen = ++searchGen;
+    results = []; lists = []; searchErr = ''; songsLoading = listsLoading = true;
+    el.resWin.hidden = false; el.resTitle.textContent = `BUSCANDO «${raw.toUpperCase()}»…`;
+    el.resList.scrollTop = 0; renderResults();
+    const done = () => { if (gen === searchGen && !songsLoading && !listsLoading) el.resTitle.textContent = `RESULTADOS: ${raw.toUpperCase()}`; };
+    api('/api/search?q=' + encodeURIComponent(raw))
+      .then(r => { if (gen !== searchGen) return; results = r.ok ? itemsOf(r) : []; if (!r.ok) searchErr = r.error || ''; })
+      .catch(e => { if (gen === searchGen) searchErr = e.message; })
+      .finally(() => { if (gen !== searchGen) return; songsLoading = false; renderResults(); done(); });
+    api('/api/searchlists?q=' + encodeURIComponent(raw))
+      .then(r => { if (gen !== searchGen) return; lists = (r.ok ? itemsOf(r) : []).map(p => ({ id: p.id, title: p.title, ch: p.ch, open: false, loading: false, songs: null, err: '' })); })
+      .catch(() => {})
+      .finally(() => { if (gen !== searchGen) return; listsLoading = false; renderResults(); done(); });
+    el.addInput.select();
+  }
+  function songRow(it, attr, cls) {
+    const inl = inListSet.has(it.id);
+    return `<li ${attr} class="${cls || ''}${inl ? ' added' : ''}" title="${escapeHtml(it.title)}"><span class="add">${inl ? '✓' : '＋'}</span><span class="t">${escapeHtml(it.title)}${it.ch ? ` <span class="c">· ${escapeHtml(it.ch)}</span>` : ''}</span><span class="d">${it.dur ? fmt(it.dur) : ''}</span></li>`;
+  }
+  function renderResults() {
+    if (el.resWin.hidden) return;
+    inListSet = new Set(S.items.map(x => x.id));
+    const h = [];
+    if (listsLoading) h.push('<li class="hdr">LISTAS DE REPRODUCCIÓN · buscando…</li>');
+    else if (lists.length) h.push('<li class="hdr">LISTAS DE REPRODUCCIÓN · clic para ver sus canciones</li>');
+    lists.forEach((p, j) => {
+      h.push(`<li data-p="${j}" class="pl${p.open ? ' open' : ''}" title="${escapeHtml(p.title)}"><span class="add">${p.open ? '▼' : '▶'}</span><span class="t">${escapeHtml(p.title)}${p.ch ? ` <span class="c">· ${escapeHtml(p.ch)}</span>` : ''}</span><span class="d">${p.songs ? p.songs.length + ' temas' : 'LISTA'}</span></li>`);
+      if (!p.open) return;
+      if (p.loading) h.push('<li class="sub note">Cargando canciones de la lista…</li>');
+      else if (p.err) h.push(`<li class="sub note">No se pudo abrir: ${escapeHtml(p.err)}</li>`);
+      else if (p.songs) {
+        h.push(`<li data-pall="${j}" class="sub all"><span class="add">＋</span><span class="t">Añadir las ${p.songs.length} canciones de esta lista</span></li>`);
+        p.songs.forEach((it, k) => h.push(songRow(it, `data-pv="${j}:${k}"`, 'sub')));
+      }
+    });
+    h.push(`<li class="hdr">CANCIONES${songsLoading ? ' · buscando…' : ''}</li>`);
+    if (!songsLoading && !results.length) h.push(`<li class="note">Sin canciones. ${searchErr ? '(' + escapeHtml(searchErr) + ')' : ''}</li>`);
+    results.forEach((it, i) => h.push(songRow(it, `data-v="${i}"`)));
+    const st = el.resList.scrollTop; el.resList.innerHTML = h.join(''); el.resList.scrollTop = st;
+  }
+  function rowItem(li) {
+    if (li.dataset.v != null) return results[+li.dataset.v];
+    if (li.dataset.pv != null) { const [j, k] = li.dataset.pv.split(':').map(Number); return lists[j] && lists[j].songs && lists[j].songs[k]; }
+    return null;
+  }
+  let lastToggle = { j: -1, t: 0 };
+  async function toggleList(j) {
+    const p = lists[j]; if (!p) return;
+    if (lastToggle.j === j && Date.now() - lastToggle.t < 450) return;
+    lastToggle = { j, t: Date.now() };
+    p.open = !p.open;
+    if (p.open && !p.songs && !p.loading) {
+      p.loading = true; p.err = ''; renderResults();
+      try {
+        const r = await api('/api/list?url=' + encodeURIComponent('https://www.youtube.com/playlist?list=' + p.id));
+        const got = r.ok ? itemsOf(r) : [];
+        if (got.length) p.songs = got; else p.err = r.error || 'la lista está vacía';
+      } catch (e) { p.err = e.message; }
+      p.loading = false;
+    }
+    renderResults();
+  }
+  function addItem(it) { S.items.push({ id: it.id, title: it.title || '', ch: it.ch || '', dur: it.dur || 0 }); markDirty(); }
+  function addSongs(arr) {
+    const start = S.items.length, autoplay = state === 'stop' && (S.cur < 0 || !S.items.length);
+    let n = 0; arr.forEach(it => { if (!S.items.some(x => x.id === it.id)) { addItem(it); n++; } });
+    save(); scheduleRender(); renderResults();
+    msg(n ? `Añadidas ${n} ${n > 1 ? 'canciones' : 'canción'}.` : 'Ya estaban todas en tu lista.', 2500);
+    if (n && autoplay) playIndex(start);
+  }
+  el.resList.addEventListener('click', e => {
+    const li = e.target.closest('li'); if (!li) return;
+    if (li.dataset.p != null) { toggleList(+li.dataset.p); return; }
+    if (li.dataset.pall != null) { const p = lists[+li.dataset.pall]; if (p && p.songs) addSongs(p.songs); return; }
+    const it = rowItem(li); if (!it) return;
+    if (inListSet.has(it.id)) { msg('Ya está en la lista (doble clic para escucharla).', 2500); return; }
+    addSongs([it]);
+  });
+  el.resList.addEventListener('dblclick', e => {
+    const li = e.target.closest('li'); if (!li) return;
+    const it = rowItem(li); if (!it) return;
+    let i = S.items.findIndex(x => x.id === it.id);
+    if (i < 0) { addItem(it); i = S.items.length - 1; save(); scheduleRender(); renderResults(); }
+    playIndex(i);
+  });
+  el.bResAll.onclick = () => addSongs(results);
+  el.bResClose.onclick = () => { el.resWin.hidden = true; };
+
+  // ---------- Lista actual ----------
+  let renderT = null, scrollCur = false;
+  function scheduleRender(scroll) { if (scroll) scrollCur = true; if (renderT) return; renderT = setTimeout(render, 40); }
+  function render() {
+    renderT = null;
+    const L = el.plList;
+    if (!S.items.length) {
+      L.innerHTML = '<li class="empty">Lista vacía.<br>Escribe arriba el nombre de una canción o artista y pulsa Enter, o pega el enlace de un video o de una lista de YouTube. También puedes cargar una de tus listas guardadas.</li>';
+    } else {
+      const frag = document.createDocumentFragment();
+      S.items.forEach((it, i) => {
+        const li = document.createElement('li'); li.dataset.i = i;
+        if (i === S.sel) li.classList.add('sel'); if (i === S.cur) li.classList.add('cur'); if (it.err) li.classList.add('err');
+        li.innerHTML = `<span class="n">${i + 1}.</span><span class="t"></span><span class="d">${it.dur ? fmt(it.dur) : ''}</span>`;
+        li.querySelector('.t').textContent = nameOf(it); li.title = nameOf(it);
+        frag.appendChild(li);
+      });
+      L.replaceChildren(frag);
+      if (scrollCur && S.cur >= 0) { const c = L.children[S.cur]; c && c.scrollIntoView({ block: 'nearest' }); }
+    }
+    scrollCur = false;
+    const total = S.items.reduce((a, x) => a + (x.dur || 0), 0);
+    el.plInfo.textContent = `${S.items.length} pista${S.items.length === 1 ? '' : 's'}${total ? ' · ' + fmt(total) : ''}`;
+    updatePlTitle();
+  }
+  el.plList.addEventListener('click', e => { const li = e.target.closest('li[data-i]'); if (!li) return; S.sel = +li.dataset.i; scheduleRender(); });
+  el.plList.addEventListener('dblclick', e => { const li = e.target.closest('li[data-i]'); if (li) playIndex(+li.dataset.i); });
+  el.plList.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && S.sel >= 0) { playIndex(S.sel); e.preventDefault(); }
+    else if (e.key === 'Delete') { removeSel(); e.preventDefault(); }
+    else if (e.key === 'ArrowDown') { S.sel = Math.min(S.items.length - 1, S.sel + 1); scheduleRender(); e.preventDefault(); e.stopPropagation(); }
+    else if (e.key === 'ArrowUp') { S.sel = Math.max(0, S.sel - 1); scheduleRender(); e.preventDefault(); e.stopPropagation(); }
+  });
+  function removeSel() {
+    const i = S.sel; if (i < 0 || i >= S.items.length) return;
+    const wasCur = i === S.cur;
+    S.items.splice(i, 1); markDirty();
+    if (i < S.cur) S.cur--; else if (wasCur) { stop(); S.cur = -1; loadedId = null; }
+    S.sel = Math.min(i, S.items.length - 1); save(); scheduleRender(); setMarquee(); renderResults();
+  }
+  function move(d) {
+    const i = S.sel, j = i + d; if (i < 0 || j < 0 || j >= S.items.length) return;
+    [S.items[i], S.items[j]] = [S.items[j], S.items[i]];
+    if (S.cur === i) S.cur = j; else if (S.cur === j) S.cur = i;
+    S.sel = j; markDirty(); save(); scheduleRender(); setMarquee();
+  }
+  el.bClear.addEventListener('click', () => {
+    if (!S.items.length) return;
+    if (!confirmArm('clear', el.bClear, '¿SEGURO?')) return;
+    stop(); S.items = []; S.cur = -1; S.sel = -1; loadedId = null; markDirty(); save(); scheduleRender(); setMarquee(); renderResults();
+  });
+
+  // ---------- Guardar como MP3 ----------
+  let mp3Poll = 0, mp3Busy = false, mp3Base = null;
+  async function queueMp3(items, sub) {
+    if (!items.length) { msg('Elige una canción en la lista (o pon una a sonar) para guardarla en MP3.'); return; }
+    if (!mp3Busy) { try { const st = await api('/api/mp3/status'); mp3Base = { done: st.done, failed: st.failed }; } catch (e) {} }
+    let n = 0;
+    for (const it of items) {
+      try { const r = await api(`/api/mp3?id=${it.id}&title=${encodeURIComponent(nameOf(it))}&sub=${encodeURIComponent(sub || '')}`); if (r.ok) n++; } catch (e) { msg(e.message); return; }
+    }
+mp3Busy = true; msg(`MP3: ${n} ${n > 1 ? 'canciones' : 'canción'} en cola…`, 0);
+    if (!mp3Poll) mp3Poll = setInterval(pollMp3, 1500);
+  }
+  async function pollMp3() {
+    let r; try { r = await api('/api/mp3/status'); } catch (e) { clearInterval(mp3Poll); mp3Poll = 0; return; }
+    const busy = r.pending > 0 || !!r.current;
+    if (busy) {
+      mp3Busy = true;
+      const c = r.current || '';
+      msg(/^(Descargando el conversor|Preparando)/.test(c) ? 'MP3: ' + c
+        : `MP3: convirtiendo «${c || '…'}»${r.pending ? ' · faltan ' + r.pending : ''}`, 0);
+      el.bMp3.classList.add('on');
+    } else {
+      clearInterval(mp3Poll); mp3Poll = 0; el.bMp3.classList.remove('on');
+      const d = r.done - (mp3Base ? mp3Base.done : 0), f = r.failed - (mp3Base ? mp3Base.failed : 0);
+      if (mp3Busy) msg(`MP3 listo: ${d} guardado${d === 1 ? '' : 's'} en Música/WinampYT (formato M4A)${f > 0 ? ` · ${f} con error (${r.lastError})` : ''}. Pulsa 📁 para abrir la carpeta.`, 15000);
+      mp3Busy = false; mp3Base = null;
+    }
+  }
+  el.bMp3.onclick = () => { const it = S.items[S.sel] || curItem(); queueMp3(it ? [it] : [], ''); };
+  el.bMp3All.onclick = () => {
+    if (!S.items.length) { msg('La lista está vacía.'); return; }
+    if (S.items.length > 5 && !confirmArm('mp3all', el.bMp3All, `¿${S.items.length}?`)) { msg(`Pulsa ¿${S.items.length}? para convertir las ${S.items.length} canciones a MP3.`, 4000); return; }
+    queueMp3(S.items.slice(), S.plName || 'Lista ' + new Date().toISOString().slice(0, 10));
+  };
+  el.bMp3Dir.onclick = () => { api('/api/mp3/open?sub=' + encodeURIComponent(S.plName || '')).then(r => msg('Carpeta: ' + (r.dir || ''), 5000)).catch(e => msg(e.message)); };
+
+  // ---------- Listas guardadas ----------
+  let plNames = [], pendingLoad = { name: '', t: 0 }, nameMode = '';
+  function markDirty() { S.dirty = true; updatePlTitle(); }
+  function updatePlTitle() {
+    el.plTitle.textContent = 'LISTA: ' + (S.plName ? S.plName.toUpperCase() : 'SIN GUARDAR') + (S.dirty && S.items.length ? ' *' : '');
+  }
+  async function refreshPls() {
+    try { const r = await api('/api/pls'); plNames = r.ok && Array.isArray(r.names) ? r.names : []; } catch (e) { plNames = []; }
+    el.plSel.innerHTML = `<option value="">— Mis listas (${plNames.length}) —</option>` + plNames.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+    el.plSel.value = plNames.includes(S.plName) ? S.plName : '';
+  }
+  el.plSel.addEventListener('change', () => {
+    const name = el.plSel.value; if (!name) return;
+    if (name === S.plName && !S.dirty) return;
+    if (S.dirty && S.items.length && !(pendingLoad.name === name && Date.now() - pendingLoad.t < 8000)) {
+      pendingLoad = { name, t: Date.now() };
+      el.plSel.value = plNames.includes(S.plName) ? S.plName : '';
+      msg(`Tienes cambios sin guardar. Pulsa GUARDAR, o elige «${name}» otra vez para cargarla igual.`, 8000);
+      return;
+    }
+    pendingLoad = { name: '', t: 0 };
+    loadPls(name);
+  });
+  async function loadPls(name) {
+    let r; try { r = await api('/api/pls/get?name=' + encodeURIComponent(name)); } catch (e) { msg(e.message, 6000); return; }
+    if (!r || !Array.isArray(r.items)) { msg('No pude abrir la lista: ' + ((r && r.error) || 'archivo dañado'), 6000); refreshPls(); return; }
+    stop(); loadedId = null;
+    S.items = r.items; S.cur = -1; S.sel = -1; S.plName = name; S.dirty = false;
+    normalize(); save(); scheduleRender(); setMarquee(); renderResults(); refreshPls();
+    msg(`Lista «${name}» cargada: ${S.items.length} canciones. Pulsa ▶ para escuchar.`, 5000);
+  }
+  async function savePls(name) {
+    const data = { name, saved: new Date().toISOString(), items: S.items.map(x => ({ id: x.id, title: x.title, ch: x.ch, dur: x.dur })) };
+    let r; try { r = await api('/api/pls/save?name=' + encodeURIComponent(name), { method: 'POST', body: asciiJSON(data), headers: { 'Content-Type': 'text/plain' } }); }
+    catch (e) { msg(e.message, 6000); return; }
+    if (!r.ok) { msg('No pude guardar: ' + (r.error || ''), 6000); return; }
+    S.plName = r.name || name; S.dirty = false; save(); updatePlTitle(); refreshPls();
+    msg(`Lista «${S.plName}» guardada (${S.items.length} canciones).`, 4000);
+  }
+  function openName(mode) {
+    nameMode = mode; el.nameRow.hidden = false;
+    el.nameInput.value = mode === 'saveas' ? (S.plName ? S.plName + ' (copia)' : '') : '';
+    el.nameOk.textContent = 'OK'; armed.over = 0;
+    setTimeout(() => { el.nameInput.focus(); el.nameInput.select(); }, 0);
+  }
+  function closeName() { el.nameRow.hidden = true; nameMode = ''; }
+  el.pNew.onclick = () => {
+    if (S.dirty && S.items.length && !confirmArm('new', el.pNew, '¿DESCARTAR?')) { msg('La lista actual tiene cambios sin guardar. Pulsa ¿DESCARTAR? para empezar otra igual.', 5000); return; }
+    stop(); loadedId = null; S.items = []; S.cur = -1; S.sel = -1; S.plName = ''; S.dirty = false;
+    save(); scheduleRender(); setMarquee(); refreshPls(); renderResults(); showPl(true);
+    msg('Lista nueva: busca canciones para añadirlas y luego pulsa GUARDAR.', 5000); el.addInput.focus();
+  };
+  el.pSave.onclick = () => { if (!S.items.length) { msg('La lista está vacía: añade canciones primero.'); return; } if (S.plName) savePls(S.plName); else openName('save'); };
+  el.pSaveAs.onclick = () => { if (!S.items.length) { msg('La lista está vacía: añade canciones primero.'); return; } openName('saveas'); };
+  el.pDel.onclick = () => {
+    const name = el.plSel.value || S.plName;
+    if (!name || !plNames.includes(name)) { msg('Elige primero en el desplegable la lista guardada que quieres borrar.'); return; }
+    if (!confirmArm('del', el.pDel, '¿BORRAR?')) { msg(`Pulsa ¿BORRAR? otra vez para borrar «${name}».`, 4000); return; }
+    api('/api/pls/del?name=' + encodeURIComponent(name)).then(() => {
+      if (name === S.plName) { S.plName = ''; S.dirty = S.items.length > 0; save(); }
+      refreshPls(); updatePlTitle(); msg(`Lista «${name}» borrada.`, 3000);
+    }).catch(e => msg(e.message));
+  };
+  el.nameOk.onclick = () => {
+    const name = el.nameInput.value.replace(/[\\/:*?"<>|]/g, '').trim();
+    if (!name) { msg('Escribe un nombre para la lista.'); el.nameInput.focus(); return; }
+    if (plNames.includes(name) && name !== S.plName && !confirmArm('over', el.nameOk, '¿REEMPLAZAR?')) { msg(`Ya existe «${name}». Pulsa ¿REEMPLAZAR? para sobrescribirla.`, 4000); return; }
+    closeName(); savePls(name);
+  };
+  el.nameCancel.onclick = closeName;
+  el.nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); el.nameOk.onclick(); } else if (e.key === 'Escape') closeName(); e.stopPropagation(); });
+
+  // ---------- Ventanas, temas y modos ----------
+  function showPl(v) { S.showPl = v; el.plWin.hidden = !v; el.bPl.classList.toggle('on', v); save(); }
+  function applyPanels() {
+    el.eqWin.hidden = !S.showEq; el.plWin.hidden = !S.showPl; el.optWin.hidden = !S.showOpt;
+    el.bEq.classList.toggle('on', S.showEq); el.bPl.classList.toggle('on', S.showPl); el.bOpt.classList.toggle('on', S.showOpt);
+  }
+  el.bEq.onclick = () => { S.showEq = !S.showEq; applyPanels(); save(); };
+  el.bPl.onclick = () => { S.showPl = !S.showPl; applyPanels(); save(); };
+  el.bOpt.onclick = () => { S.showOpt = !S.showOpt; applyPanels(); save(); };
+
+  function applyTheme() {
+    document.body.dataset.theme = S.theme;
+    if (pipWin) pipWin.document.body.dataset.theme = S.theme;
+    el.themes.querySelectorAll('.sw').forEach(b => b.classList.toggle('on', b.dataset.t === S.theme));
+    readThemeColors(); drawEqCurve();
+  }
+  function buildThemes() {
+    const probe = document.createElement('div'); document.body.appendChild(probe);
+    el.themes.innerHTML = THEMES.map(([id, name]) => {
+      document.body.dataset.theme = id;
+      const st = getComputedStyle(document.body);
+      const c = n => st.getPropertyValue(n).trim();
+      return `<button class="sw" data-t="${id}" style="background:linear-gradient(${c('--f1')},${c('--f3')});color:${c('--ttl')}"><i style="background:${c('--lcd')}"></i>${name}</button>`;
+    }).join('');
+    probe.remove();
+    applyTheme();
+  }
+  el.themes.addEventListener('click', e => { const b = e.target.closest('.sw'); if (!b) return; S.theme = b.dataset.t; applyTheme(); save(); });
+
+  function applyShade() {
+    document.body.classList.toggle('shade', S.shade);
+    el.tShade.classList.toggle('on', S.shade);
+    if (HOST && S.dockMini) send('dock|' + (S.shade ? '1' : '0'));
+    marqPos = 0; marqLast = 0;
+  }
+  const toggleShade = () => { S.shade = !S.shade; applyShade(); save(); };
+  el.tShade.onclick = toggleShade; el.sRestore.onclick = toggleShade;
+
+  function setGhostUI(on) { ghostOn = on; document.body.classList.toggle('ghost', on); [el.tGhost, el.sGhost].forEach(b => b.classList.toggle('on', on)); el.oGhost.textContent = on ? 'DESACTIVAR' : 'ACTIVAR'; el.oGhost.classList.toggle('on', on); }
+  const toggleGhost = () => {
+    const on = !ghostOn;
+    send('ghost|' + (on ? '1' : '0'));
+    if (on) msg('Modo fantasma activo: mantén Ctrl o Alt para usarlo. Ctrl+Alt+F lo quita.', 6000);
+  };
+  el.tGhost.onclick = toggleGhost; el.sGhost.onclick = toggleGhost; el.oGhost.onclick = toggleGhost;
+  function setTopUI(on) { S.top = on; el.tTop.classList.toggle('on', on); el.oTop.checked = on; save(); }
+  el.tTop.onclick = () => send('top|' + (S.top ? '0' : '1'));
+  el.oTop.onchange = () => send('top|' + (el.oTop.checked ? '1' : '0'));
+  el.oAlpha.addEventListener('input', () => { S.ghostAlpha = +el.oAlpha.value; el.oAlphaV.textContent = S.ghostAlpha + '%'; send('alpha|' + S.ghostAlpha); save(); });
+  el.oProg.onchange = () => { S.taskProg = el.oProg.checked; progLast = 0; save(); };
+  el.oDock.onchange = () => { S.dockMini = el.oDock.checked; save(); if (S.shade) send('dock|' + (S.dockMini ? '1' : '0')); };
+  el.tMin.onclick = () => send('min');
+  el.tClose.onclick = () => send('close');
+
+  // Arrastrar la ventana desde la barra de título
+  [el.mainBar, el.shadeBar].forEach(bar => bar.addEventListener('mousedown', e => {
+    if (!HOST || e.button !== 0 || e.target.closest('button,.time')) return;
+    e.preventDefault(); send('drag');
+  }));
+
+  // Mensajes desde la ventana de Windows
+  if (HOST) window.chrome.webview.addEventListener('message', e => {
+    const p = String(e.data || '').split('|');
+    if (p[0] === 'cmd') ({ toggle, next: () => next(false), prev, stop, play })[p[1]]?.();
+    else if (p[0] === 'ghost') setGhostUI(p[1] === '1');
+    else if (p[0] === 'top') setTopUI(p[1] === '1');
+    else if (p[0] === 'ghostlive') document.body.classList.toggle('ghost-through', p[1] === '1');
+  });
+
+  // Ajustar la ventana al tamaño exacto del reproductor
+  let sizeT = 0;
+  function reportSize() {
+    clearTimeout(sizeT);
+    sizeT = setTimeout(() => {
+      const r = el.app.getBoundingClientRect();
+      const w = Math.ceil(r.width), h = Math.ceil(r.height);
+      if (HOST) send(`size|${w}|${h}|${window.devicePixelRatio || 1}`);
+      else if (!pipWin && window.matchMedia('(display-mode: standalone), (display-mode: minimal-ui)').matches === false) {
+        try { window.resizeTo(w + 16 + (window.outerWidth - window.innerWidth), h + 16 + (window.outerHeight - window.innerHeight)); } catch (e) {}
+      }
+    }, 30);
+  }
+  new ResizeObserver(reportSize).observe(el.app);
+
+  // ---------- Botones del reproductor ----------
+  el.bPlay.onclick = play; el.bPause.onclick = pause; el.bStop.onclick = stop;
+  el.bNext.onclick = () => next(false); el.bPrev.onclick = prev;
+  el.sPlay.onclick = toggle; el.sNext.onclick = () => next(false); el.sPrev.onclick = prev;
+  el.bEject.onclick = () => { if (pipWin) window.focus(); if (S.shade) { S.shade = false; applyShade(); } showPl(true); el.addInput.focus(); el.addInput.select(); };
+  el.bAdd.onclick = submitInput;
+  el.addInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submitInput(); } e.stopPropagation(); });
+  el.bRem.onclick = removeSel; el.bUp.onclick = () => move(-1); el.bDown.onclick = () => move(1);
+  el.vol.addEventListener('input', () => setVol(+el.vol.value));
+  const syncToggles = () => { el.bShuf.classList.toggle('on', S.shuffle); el.bRep.classList.toggle('on', S.repeat); };
+  el.bShuf.onclick = () => { S.shuffle = !S.shuffle; save(); syncToggles(); };
+  el.bRep.onclick = () => { S.repeat = !S.repeat; save(); syncToggles(); };
+
+  function onKey(e) {
+    if (e.target && ((e.target.tagName === 'INPUT' && e.target.type !== 'range' && e.target.type !== 'checkbox') || e.target.tagName === 'SELECT')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const k = e.key.toLowerCase();
+    const map = { z: prev, x: play, c: pause, v: stop, b: () => next(false), l: () => el.bEject.onclick(), s: () => el.bShuf.onclick(), r: () => el.bRep.onclick(),
+      arrowleft: () => seekBy(-5), arrowright: () => seekBy(5), arrowup: () => setVol(S.vol + 5), arrowdown: () => setVol(S.vol - 5), ' ': pause };
+    if (map[k]) { e.preventDefault(); map[k](); }
+  }
+  window.addEventListener('keydown', onKey);
+
+  // ---------- Mini ventana del navegador (solo en Chrome/Edge) ----------
+  el.btnPip.onclick = async () => {
+    if (!('documentPictureInPicture' in window)) { msg('Tu navegador no tiene mini ventana flotante. Usa Chrome o Edge actualizados.', 7000); return; }
+    if (pipWin) { pipWin.close(); return; }
+    try { pipWin = await documentPictureInPicture.requestWindow({ width: Math.max(380, el.main.offsetWidth), height: el.main.offsetHeight + 6 }); }
+    catch (e) { msg('No se pudo abrir la mini ventana.'); return; }
+    const pd = pipWin.document;
+    [...document.styleSheets].forEach(ss => {
+      try { const s = pd.createElement('style'); s.textContent = [...ss.cssRules].map(r => r.cssText).join('\n'); pd.head.appendChild(s); }
+      catch (e) { if (ss.href) { const l = pd.createElement('link'); l.rel = 'stylesheet'; l.href = ss.href; pd.head.appendChild(l); } }
+    });
+    pd.title = 'WinampYT';
+    pd.body.className = document.body.className + ' pip'; pd.body.dataset.theme = S.theme; pd.body.appendChild(el.main);
+    pipWin.addEventListener('keydown', onKey);
+    pipWin.addEventListener('pagehide', () => { el.mainSlot.appendChild(el.main); pipWin = null; startLoop(); });
+    startLoop();
+  };
+
+  // ---------- Completar nombres que falten ----------
+  async function fixTitles() {
+    for (const it of S.items.filter(x => !x.title)) {
+      try {
+        const r = await api('/api/list?url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + it.id));
+        const got = r.ok ? itemsOf(r) : [];
+        if (got[0]) { it.title = got[0].title; it.ch = got[0].ch; if (!it.dur) it.dur = got[0].dur; save(); scheduleRender(); if (curItem() === it) { setMarquee(); updateMediaSession(); } }
+      } catch (e) { return; }
+    }
+  }
+
+  // ---------- Inicio ----------
+  async function boot() {
+    let srv = null;
+    if (location.protocol === 'file:') serverDown();
+    else { try { const r = await fetch('/api/state', { cache: 'no-store' }); srv = await r.json(); } catch (e) { serverDown(); } }
+    const fromServer = srv && Array.isArray(srv.items);
+    if (fromServer) Object.assign(S, srv);
+    normalize();
+    S.shade = !!S.shade;
+    buildThemes(); buildEq();
+    el.vol.value = S.vol; audio.volume = volCurve(S.vol);
+    el.oAlpha.value = S.ghostAlpha; el.oAlphaV.textContent = S.ghostAlpha + '%';
+    el.oProg.checked = S.taskProg; el.oDock.checked = S.dockMini;
+    syncToggles(); applyPanels(); applyShade(); setGhostUI(false);
+    setState('stop'); render(); startLoop(); reportSize();
+    if (HOST) { send('alpha|' + S.ghostAlpha); if (S.top) send('top|1'); }
+    if (location.protocol !== 'file:') {
+      if (!fromServer && S.items.length) save();   // pasar la lista antigua al motor
+      refreshPls(); fixTitles(); pollMp3();
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
